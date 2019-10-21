@@ -24,8 +24,16 @@ fred.name = "Brick"
 fred.weight = 999.2
 fred.homePlanet = "Mars"
 ```
+This wont work because there is a let statement inside the class, therefore it cant be changed 
 
 Fix the class definition for `Giant` in the space below so that it **does** work:
+```
+class Giant {
+ var name: String = "Fred"
+ var weight: Double = 340.0
+ var homePlanet: String = "Earth"
+}
+```
 
 
 ## Question 2
@@ -48,8 +56,13 @@ bilbo.name = "Jake"
 bilbo.height = 1.42
 bilbo.homePlanet = "Saturn"
 ```
+No because bilbo is a let and not a var
 
 Change the declaration of `bilbo` so that the above three lines of code **do** work:
+```
+var bilbo = Alien(name: "Bilbo", height: 1.67, homePlanet: "Venus")
+
+```
 
 
 ## Question 3
@@ -65,6 +78,8 @@ jason.name = "Jason"
 
 What will the value of `edgar.name` be after those three lines of code are run? What will the value of `jason.name` be? Why?
 
+Both edgar.name and jason.name will be "Jason" because its pointing to the same object. 
+
 
 ## Question 4
 
@@ -77,6 +92,10 @@ charlesFromJupiter.homePlanet = "Jupiter"
 ```
 
 What will the value of `charles.homePlanet` be after the above code run? What about the value of `charlesFromJupiter.homePlanet`? Why?
+
+charles.homePlanet = "Pluto" 
+charlesFromJupiter.homePlanet = "Jupiter"
+Struct Alien is  vakue type therefore copies are their own instances. 
 
 
 ## Question 5
@@ -99,8 +118,24 @@ struct BankAccount {
 ```
 
 Does this code work? Why or why not?
+No the code doesnt work because we are breaking the original information 
 
 Fix the `BankAccount` struct so it does work.
+```
+struct BankAccount {
+ var owner: String
+ var balance: Double
+
+ mutating func deposit(_ amount: Double) {
+ balance += amount
+ }
+
+ mutating func withdraw(_ amount: Double) {
+ balance -= amount
+ }
+}
+
+```
 
 Given the code below (which should incorporate any fixes you made):
 
@@ -112,10 +147,27 @@ joeAccount.withdraw(50.0)
 
 What will the value of `joeAccount.balance` be after the above code runs? What about the value of `joeOtherAccount.balance`? Why?
 
+joeAccount.balance will be 50 since we withdrew 50 from the 100
+`joeOtherAccount.balance will be 100 because it still holds the original value because of its value type 
 
 ## Question 6
 
 a. Write a struct called `Person` that has 3 properties of type `String`: a first name, a last name and a middle name. Have the middle name be optional. Create 2 instances of a `Person`, one with a middle name and one without. Print one of their first names.
+
+```
+struct Person {
+var firstName: String 
+var lastName: String
+var middleName: String?
+
+func info () {
+    print("The first name is \(firstname), the middle name is \(String(describing: middlename)), the last name is \(lastname)")
+}
+}
+
+let person1 = Person(firstname: "kobe", lastname: "bryant", middlename: "bean"!)
+
+```
 
 
 b. Write a method in `Person` called `fullName` that will return a formatted string of an instance's full name. Call this method on both the instances you created in part a.
@@ -124,16 +176,78 @@ b. Write a method in `Person` called `fullName` that will return a formatted str
 ## Question 7
 
 a. Create a struct called `Book` that has properties `title`, `author` and `rating`, of type `String`, `String`, and `Double` respectively. Create some instances of `Book`.
+```
+struct Book {
+    var title: String
+    var author: String
+    var rating: Double
+}
 
+let book1 = Book(title: "nice", author: "nice author", rating: 10.0)
+let book2 = Book(title: "book 2", author: "author two", rating: 1.0)
+```
 
 b. Add a method to `Book` called `isGood` that returns `true` if its rating is greater than or equal to 7
+```
 
+struct Book {
+    var title: String
+    var author: String
+    var rating: Double
+    
+    func isGood(rating: Double) -> Bool {
+        if rating < 7 {
+            return false
+        } else {
+        return true
+    }
+}
+}
+
+let book1 = Book(title: "nice", author: "nice author", rating: 10.0)
+let book2 = Book(title: "book 2", author: "author two", rating: 1.0)
+
+book1.isGood(rating: 10.0)
+book2.isGood(rating: 1.0)
+
+```
 
 ## Question 8
 
 ```swift
 class Dog {
-
+    var name: String
+    static var count: Int = 0 
+    var breed: String
+    var mood: String
+    var hungry: Bool
+    
+    init(name: String, breed: String, mood: String, hungry: Bool){
+        self.name = name
+        self.breed = breed
+        self.mood = mood
+        self.hungry = hungry
+        Dog.count += 1 
+    }
+    
+    func playFetch() {
+        self.hungry = true
+        self.mood = "playful"
+        print("Ruff!")
+    }
+    
+    func feed() {
+        if self.hungry == true {
+            self.hungry = false
+            print("Woof!")
+        } else {
+            print("The dog doesn't look hungry")
+        }
+    }
+    
+    func toString ()  {
+       print("Name: \(name)\nBreed: \(breed)\nMood: \(mood) ")
+    }
 }
 ```
 
@@ -195,6 +309,9 @@ e. Add a type property called `count` that keeps track of how many dogs have bee
 
 //Ex: There have been four dogs created so far
 `Dog.count //returns 4`
+```
+print(Dog.count)
+```
 
 
 ## Question 9
@@ -218,6 +335,37 @@ tenDegreesCelsius.getFahrenheitTemp() //returns 50.0
 ```
 
 c. Give the `Celsius` struct a method called `isBelowFreezing` that returns a `Bool` (true if the temperature is below freezing).
+
+ANSWER
+```
+struct FreezingPoint {
+    var celsius = 0.0
+    var fahrenheit = 32.0
+    var kelvin = 273.2
+}
+
+struct Celsius {
+    var celsius = 0.0
+    
+    func getFahrenheitTemp () {
+        var cToF = (1.8 * celsius) + 32
+        print("\(cToF)")
+    }
+    
+    func getKelvinTemp () {
+        var cToK = celsius + 273
+        print("\(cToK)")
+    }
+
+    func isBelowFreezing (celsius: Double) -> Bool {
+        if celsius < 0.0 {
+        return true
+        } else {
+            return false
+        }
+}
+}
+```
 
 
 ## Question 10
@@ -244,6 +392,24 @@ b. Create an instance method inside `Movie` called `blurb` that returns a format
 
 Ex: "Borat came out in 2006. It was an odd film starring Sacha Baron Cohen as a man named Borat who was visiting America from Kazakhstan."
 
+ANSWER
+```
+struct Movie {
+    var name: String
+    var year: Int
+    var genre: String
+    var cast: [String]
+    var description: String
+    
+    func blurb () {
+        print("\(name) came out in \(year). It was an \(genre) film starring \(cast) as a man who played \(name) \(description) ")
+    }
+}
+
+let movie1 = Movie(name: "Borat", year: 2006, genre: "odd", cast: ["Sacha Baron Cohen"], description: "who was visiting America from Kazekhstan")
+movie1.blurb()
+```
+
 
 ## Question 12
 
@@ -258,6 +424,11 @@ let dieHardDict: [String: Any] = ["name": "Die Hard",
 ```
 
 Hint: To use a value type `Any`, you will need to cast it to its expected type.
+
+ANSWER 
+```
+
+```
 
 Below, `nameAsAny` is of type `Any` because thats the type of the value in the dictionary:
 
