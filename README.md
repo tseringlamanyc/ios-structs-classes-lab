@@ -427,6 +427,15 @@ Hint: To use a value type `Any`, you will need to cast it to its expected type.
 
 ANSWER 
 ```
+func makeMovie (dict: [String : Any]) -> Movie? {
+    let name = dict["name"] as? String ?? "no name"
+    let year = dict["year"] as? Int ?? 0
+    let genre = dict["genre"] as? String ?? "no genre"
+    let cast = dict["cast"] as? [String] ?? [""]
+    let description = dict["description"] as? String ?? "no description"
+    let movie = Movie(name: name, year: year, genre: genre, cast: cast, description: description)
+    return movie
+}
 
 ```
 
@@ -464,6 +473,7 @@ Given the below array of movie dictionaries, use your function from the last que
 // movies is an Array of Dictionaries
 // each element of movies is a Dictionary with the keys
 // 'name','year', 'genre', 'cast' and 'description'
+
 var movies: [[String:Any]] = [
  [
  "name": "Minions",
